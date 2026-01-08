@@ -1,1 +1,12 @@
 .env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Task-specific cache
+task_4/__pycache__/
+task_8/__pycache__/

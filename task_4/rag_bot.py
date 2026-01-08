@@ -37,48 +37,42 @@ TOP_K_CHUNKS = 5  # Количество чанков для поиска
 class YandexGPTClient:
     """Клиент для работы с YandexGPT API."""
     
-    def __init__(self, model: str = DEFAULT_MODEL, api_key: Optional[str] = None):
+    def __init__(
+        self,
+        model: str = DEFAULT_MODEL,
+        api_key: Optional[str] = None,
+        folder_id: Optional[str] = None,
+        iam_token: Optional[str] = None
+    ):
         """
         Инициализирует клиент YandexGPT.
         
         Args:
             model: название модели (yandexgpt, yandexgpt-lite, yandexgpt-pro)
-            api_key: API ключ (если не указан, используется IAM токен через yc)
+            api_key: API ключ (приоритетный способ авторизации)
+            folder_id: ID каталога Yandex Cloud (из переменной окружения YANDEX_GPT_FOLDER_ID)
+            iam_token: IAM токен (из переменной окружения YANDEX_GPT_IAM_TOKEN, если нет api_key)
         """
         self.model = model
         self.api_key = api_key
-        self.folder_id = self._get_folder_id()
-        self.iam_token = None if api_key else self._get_iam_token()
-    
-    def _run_yc_command(self, command: list) -> Tuple[bool, str]:
-        """Выполняет команду yc и возвращает результат."""
-        try:
-            result = subprocess.run(
-                ['yc'] + command,
-                capture_output=True,
-                text=True,
-                check=True
-            )
-            return True, result.stdout.strip()
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            return False, ""
-    
-    def _get_folder_id(self) -> Optional[str]:
-        """Получает ID текущего каталога."""
-        success, output = self._run_yc_command(['config', 'get', 'folder-id'])
-        return output if success else None
-    
-    def _get_iam_token(self) -> Optional[str]:
-        """Получает IAM токен через yc."""
-        success, output = self._run_yc_command(['iam', 'create-token'])
-        return output if success else None
+        # Если api_key не указан, используем folder_id и iam_token из переменных окружения
+        if not self.api_key:
+            self.folder_id = folder_id or os.getenv("YANDEX_GPT_FOLDER_ID")
+            self.iam_token = iam_token or os.getenv("YANDEX_GPT_IAM_TOKEN")
+        else:
+            # Если есть api_key, folder_id всё равно может понадобиться для model_uri
+            self.folder_id = folder_id or os.getenv("YANDEX_GPT_FOLDER_ID")
+            self.iam_token = None
     
     def _get_model_uri(self) -> str:
         """Формирует URI модели."""
         if self.model.startswith("gpt://"):
             return self.model
         if not self.folder_id:
-            raise ValueError("Не удалось получить folder-id. Проверьте конфигурацию yc.")
+            raise ValueError(
+                "Не указан YANDEX_GPT_FOLDER_ID. "
+                "Добавьте его в .env или запустите get_yandex_credentials.py для получения."
+            )
         return f"gpt://{self.folder_id}/{self.model}"
     
     def generate(
@@ -121,7 +115,10 @@ class YandexGPTClient:
         else:
             return {
                 "success": False,
-                "error": "Не указан ни IAM токен, ни API ключ"
+                "error": (
+                    "Не указан ни YANDEX_GPT_API_KEY, ни YANDEX_GPT_IAM_TOKEN. "
+                    "Добавьте один из них в .env или запустите get_yandex_credentials.py для получения IAM токена."
+                )
             }
         
         try:
@@ -201,7 +198,12 @@ class RAGBot:
         
         # Инициализируем LLM клиент
         print("Инициализация LLM клиента...")
-        self.llm_client = YandexGPTClient(model=llm_model, api_key=api_key)
+        self.llm_client = YandexGPTClient(
+            model=llm_model,
+            api_key=api_key,
+            folder_id=os.getenv("YANDEX_GPT_FOLDER_ID"),
+            iam_token=os.getenv("YANDEX_GPT_IAM_TOKEN")
+        )
         
         # Загружаем few-shot примеры
         self.few_shot_examples = self._load_few_shot_examples()

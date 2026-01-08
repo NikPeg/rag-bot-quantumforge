@@ -1,0 +1,25 @@
+services:
+  telegram-bot:
+    build:
+      context: ..
+      dockerfile: task_8/Dockerfile
+    container_name: rag-telegram-bot
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    volumes:
+      # Монтируем индекс для персистентности
+      - ../task_3/chroma_db:/app/task_3/chroma_db
+      # Монтируем логи
+      - ./logs:/app/logs
+    # Переменные из .env автоматически загружаются через env_file
+    # Дополнительно устанавливаем только TELEGRAM_BOT_TOKEN с fallback на TG_TOKEN
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-${TG_TOKEN}}
+    networks:
+      - rag-network
+
+networks:
+  rag-network:
+    driver: bridge
+
