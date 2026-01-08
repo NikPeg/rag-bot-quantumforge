@@ -16,9 +16,6 @@ services:
       # Монтируем логи
       - ./logs:/app/logs
     # Переменные из .env автоматически загружаются через env_file
-    # Дополнительно устанавливаем только TELEGRAM_BOT_TOKEN с fallback на TG_TOKEN
-    environment:
-      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-${TG_TOKEN}}
     networks:
       - rag-network
 
