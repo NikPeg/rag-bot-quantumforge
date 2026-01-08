@@ -12,8 +12,10 @@ RUN apt-get update && apt-get install -y \
 COPY task_8/requirements.txt /app/requirements.txt
 COPY task_4/requirements.txt /app/task_4_requirements.txt
 
-# Установка Python зависимостей
-RUN pip install --no-cache-dir -r /app/requirements.txt
+# Установка Python зависимостей с использованием BuildKit cache mount
+# Это ускоряет повторные сборки, кешируя pip пакеты
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --no-cache-dir -r /app/requirements.txt
 
 # Копирование кода приложения
 COPY task_4/ /app/task_4/

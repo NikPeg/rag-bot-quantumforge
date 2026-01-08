@@ -14,6 +14,8 @@ chromadb>=0.4.0
 
 # Модели эмбеддингов
 sentence-transformers>=2.2.0
+# CPU-only версия torch для ускорения установки (GPU не используется)
+--extra-index-url https://download.pytorch.org/whl/cpu
 torch>=2.0.0
 
 # HTTP клиент для YandexGPT API

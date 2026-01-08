@@ -3,6 +3,9 @@ services:
     build:
       context: ..
       dockerfile: task_8/Dockerfile
+      # Использование BuildKit для кеширования и ускорения сборки
+      args:
+        BUILDKIT_INLINE_CACHE: 1
     container_name: rag-telegram-bot
     restart: unless-stopped
     env_file:
