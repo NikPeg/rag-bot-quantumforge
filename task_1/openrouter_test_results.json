@@ -1,0 +1,66 @@
+{
+  "test_prompt": "Объясни, что такое RAG (Retrieval-Augmented Generation) и как это работает. \nОтветь на русском языке, кратко (2-3 предложения).",
+  "timestamp": "2026-01-08 12:46:42",
+  "results": [
+    {
+      "model": "Xiaomi MiMo-V2-Flash",
+      "model_id": "xiaomi/mimo-v2-flash:free",
+      "success": true,
+      "response_time": 4.5300469398498535,
+      "input_tokens": 80,
+      "output_tokens": 121,
+      "total_tokens": 201,
+      "cost": 0.0,
+      "content_length": 418,
+      "content_preview": "**RAG (Retrieval-Augmented Generation)** — это метод, при котором перед генерацией ответа модель сначала ищет релевантную информацию в своей базе знаний (например, в документах компании).\n\nЭто работае"
+    },
+    {
+      "model": "Claude Sonnet 4.5",
+      "model_id": "anthropic/claude-sonnet-4.5",
+      "success": true,
+      "response_time": 4.546519041061401,
+      "input_tokens": 57,
+      "output_tokens": 212,
+      "total_tokens": 269,
+      "cost": 0.0033510000000000002,
+      "content_length": 580,
+      "content_preview": "# RAG (Retrieval-Augmented Generation)\n\n**RAG** — это технология, которая улучшает ответы языковых моделей путём поиска релевантной информации из внешних источников данных перед генерацией ответа.\n\n**"
+    },
+    {
+      "model": "Google Gemini 2.5 Flash",
+      "model_id": "google/gemini-2.5-flash",
+      "success": true,
+      "response_time": 1.8794469833374023,
+      "input_tokens": 39,
+      "output_tokens": 110,
+      "total_tokens": 149,
+      "cost": 0.00028670000000000003,
+      "content_length": 434,
+      "content_preview": "RAG (Retrieval-Augmented Generation) — это метод, который улучшает генерацию текста большими языковыми моделями (LLM), позволяя им сначала извлекать релевантную информацию из базы знаний, а затем испо"
+    },
+    {
+      "model": "Google Gemini 3 Flash Preview",
+      "model_id": "google/gemini-3-flash-preview",
+      "success": true,
+      "response_time": 1.8333251476287842,
+      "input_tokens": 40,
+      "output_tokens": 114,
+      "total_tokens": 154,
+      "cost": 0.000362,
+      "content_length": 482,
+      "content_preview": "**RAG (Retrieval-Augmented Generation)** — это технология, которая позволяет нейросети использовать внешние актуальные данные (базы знаний, документы), не входящие в её исходное обучение.\n\nРаботает эт"
+    },
+    {
+      "model": "DeepSeek V3.2",
+      "model_id": "deepseek/deepseek-v3.2",
+      "success": true,
+      "response_time": 7.965696096420288,
+      "input_tokens": 43,
+      "output_tokens": 113,
+      "total_tokens": 156,
+      "cost": 5.3689999999999996e-05,
+      "content_length": 437,
+      "content_preview": "**RAG (Retrieval-Augmented Generation) — это подход в искусственном интеллекте, который улучшает работу языковых моделей.** Он работает, сначала находя релевантные документы из внешней базы знаний (по"
+    }
+  ]
+}
