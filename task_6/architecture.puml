@@ -1,0 +1,111 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontSize 12
+
+title Архитектура автоматического обновления базы знаний
+
+' Источник данных
+package "Источник данных" {
+    folder knowledge_base [
+        База знаний
+        (Markdown файлы)
+    ]
+}
+
+' Планировщик
+package "Планировщик" {
+    component cron [
+        Cron / Планировщик задач
+        Запуск: ежедневно в 6:00
+    ]
+}
+
+' Скрипт обновления
+package "Скрипт обновления" {
+    component update_index [
+        update_index.py
+        - Сканирование файлов
+        - Отслеживание изменений
+        - Обработка документов
+    ]
+    
+    component file_scanner [
+        Сканер файлов
+        - Поиск новых файлов
+        - Обнаружение изменений
+        - Вычисление хешей
+    ]
+    
+    component text_processor [
+        Обработчик текста
+        - Загрузка документов
+        - Разбиение на чанки
+        - Извлечение метаданных
+    ]
+    
+    component embedding_generator [
+        Генератор эмбеддингов
+        - sentence-transformers
+        - all-MiniLM-L6-v2
+    ]
+}
+
+' Векторная БД
+package "Векторная БД" {
+    database chromadb [
+        ChromaDB
+        - Хранение эмбеддингов
+        - Метаданные чанков
+        - Поиск по векторам
+    ]
+}
+
+' Логирование
+package "Логирование" {
+    file logs [
+        Логи обновления
+        - Временные метки
+        - Статистика
+        - Ошибки
+    ]
+    
+    file state [
+        index_state.json
+        - Хеши файлов
+        - Время последнего обновления
+        - Статистика
+    ]
+}
+
+' Поток данных
+knowledge_base --> file_scanner : Сканирование
+cron --> update_index : Запуск по расписанию
+update_index --> file_scanner
+file_scanner --> state : Чтение/запись состояния
+file_scanner --> text_processor : Новые/изменённые файлы
+text_processor --> embedding_generator : Чанки текста
+embedding_generator --> chromadb : Эмбеддинги + метаданные
+update_index --> logs : Запись логов
+update_index --> state : Сохранение состояния
+
+note right of update_index
+  Процесс обновления:
+  1. Сканирование knowledge_base/
+  2. Сравнение с предыдущим состоянием
+  3. Обработка новых/изменённых файлов
+  4. Генерация эмбеддингов
+  5. Обновление индекса в ChromaDB
+  6. Удаление устаревших чанков
+  7. Логирование результатов
+end note
+
+note right of chromadb
+  Операции:
+  - Добавление новых чанков
+  - Удаление устаревших чанков
+  - Обновление метаданных
+end note
+
+@enduml
+
