@@ -605,19 +605,20 @@ class RAGBot:
             answer_text = f"Извините, я не могу предоставить эту информацию по соображениям безопасности. ({safety_reason})"
         
         # Формируем ответ
+        filtered_count = len(filtered_chunks)
         response = {
             "success": True,
             "answer": answer_text,
             "sources": [chunk.metadata.get('file_name', 'unknown') for chunk in safe_chunks],
             "chunks_found": len(safe_chunks),
-            "filtered_chunks": len(filtered_chunks),
+            "filtered_chunks": filtered_count,
             "input_tokens": result.get("input_tokens", 0),
             "output_tokens": result.get("output_tokens", 0),
             "total_tokens": result.get("total_tokens", 0)
         }
         
-        if filtered_chunks > 0:
-            response["security_note"] = f"Отфильтровано {filtered_chunks} потенциально опасных чанков"
+        if filtered_count > 0:
+            response["security_note"] = f"Отфильтровано {filtered_count} потенциально опасных чанков"
         
         if not is_safe:
             response["security_blocked"] = True
