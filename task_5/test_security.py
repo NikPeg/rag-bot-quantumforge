@@ -9,6 +9,9 @@
 
 import sys
 from pathlib import Path
+
+# Добавляем путь к task_4 для импорта rag_bot
+sys.path.insert(0, str(Path(__file__).parent.parent / "task_4"))
 from rag_bot import RAGBot
 
 

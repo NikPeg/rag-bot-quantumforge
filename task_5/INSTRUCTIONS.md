@@ -15,7 +15,7 @@ python build_index.py
 ### 2. Запустить тесты
 
 ```bash
-cd task_4
+cd task_5
 python test_security.py
 ```
 

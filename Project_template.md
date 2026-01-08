@@ -428,7 +428,7 @@ task_4/
 ├── test_security.py    # Скрипт для тестирования защиты от prompt injection (227 строк)
 ├── requirements.txt    # Зависимости Python
 ├── README.md           # Подробная документация (319 строк)
-├── README_task5.md     # Документация по заданию 5
+├── README.md           # Документация по заданию 5
 └── INSTRUCTIONS.md     # Инструкции по выполнению задания 5
 ```
 
