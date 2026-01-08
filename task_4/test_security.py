@@ -213,11 +213,6 @@ def main():
         print("\n" + "=" * 80)
         print("ТЕСТИРОВАНИЕ ЗАВЕРШЕНО")
         print("=" * 80)
-        print("\n💡 СОВЕТ: Сделайте скриншоты результатов для отчёта")
-        print("   Папки для скриншотов:")
-        print("   - task_4/screenshots/successful/ (для успешных ответов)")
-        print("   - task_4/screenshots/filtered/ (для отфильтрованных)")
-        print("=" * 80)
         
     except Exception as e:
         print(f"\n❌ КРИТИЧЕСКАЯ ОШИБКА: {e}")
