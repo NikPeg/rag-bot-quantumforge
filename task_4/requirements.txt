@@ -1,0 +1,21 @@
+# Зависимости для RAG-бота с техниками промптинга
+
+# LangChain и компоненты
+langchain>=0.1.0
+langchain-community>=0.0.10
+langchain-core>=0.1.0
+langchain-huggingface>=0.0.1
+
+# Векторная БД
+chromadb>=0.4.0
+
+# Модели эмбеддингов
+sentence-transformers>=2.2.0
+torch>=2.0.0
+
+# HTTP клиент для YandexGPT API
+requests>=2.31.0
+
+# Утилиты
+numpy>=1.24.0
+
