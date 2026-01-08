@@ -231,35 +231,30 @@ class RAGBot:
         
         Возвращает список примеров в формате [{"question": "...", "answer": "..."}]
         """
-        # Примеры из базы знаний (можно расширить, извлекая реальные примеры)
-        examples = [
-            {
-                "question": "Как называется столица планеты Ти'лора?",
-                "answer": "Столица планеты Ти'лора называется Сайрон. Это крупный город, расположенный в центральной части планеты."
-            },
-            {
-                "question": "Кто такой Korax?",
-                "answer": "Korax — это могущественный персонаж из Netherrealm, известный своими способностями и влиянием. Он играет важную роль в событиях вселенной."
-            }
-        ]
-        
         # Попробуем найти реальные примеры из базы знаний
         try:
             # Ищем примеры вопросов-ответов из базы
             test_queries = [
-                "Что такое Eclipse Manor?",
-                "Кто такой Korax?",
-                "Опиши Netherrealm"
+                "Что такое Twilight Manor?",
+                "Кто такой Korax?"
             ]
             
             found_examples = []
-            for query in test_queries[:2]:  # Берем первые 2
-                results = self.vectorstore.similarity_search_with_score(query, k=1)
+            for query in test_queries:
+                results = self.vectorstore.similarity_search_with_score(query, k=2)
                 if results:
+                    # Берем лучший результат
                     doc, score = results[0]
-                    if score < 1.0:  # Хорошая релевантность
+                    if score < 1.5:  # Хорошая релевантность
                         # Формируем краткий ответ на основе найденного чанка
-                        answer = doc.page_content[:200] + "..." if len(doc.page_content) > 200 else doc.page_content
+                        # Берем первые 2-3 предложения для краткости
+                        content = doc.page_content
+                        sentences = content.split('. ')
+                        if len(sentences) > 3:
+                            answer = '. '.join(sentences[:3]) + '.'
+                        else:
+                            answer = content[:250] + "..." if len(content) > 250 else content
+                        
                         found_examples.append({
                             "question": query,
                             "answer": answer
@@ -270,6 +265,18 @@ class RAGBot:
                 return found_examples[:2]  # Максимум 2 примера
         except Exception as e:
             print(f"Предупреждение: не удалось загрузить few-shot примеры из базы: {e}")
+        
+        # Fallback примеры, если не удалось извлечь из базы
+        examples = [
+            {
+                "question": "Что такое Twilight Manor?",
+                "answer": "Twilight Manor — это отель, которым управляет Zara Morningstar. В нём проходят реабилитацию гости из Netherrealm."
+            },
+            {
+                "question": "Кто такой Korax?",
+                "answer": "Korax — это могущественный персонаж из Netherrealm, известный своими способностями и влиянием."
+            }
+        ]
         
         return examples
     
