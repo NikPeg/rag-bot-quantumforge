@@ -10,3 +10,6 @@ __pycache__/
 # Task-specific cache
 task_4/__pycache__/
 task_8/__pycache__/
+
+Theory/
+task.md

@@ -11,6 +11,7 @@ task_7/
 ├── golden_questions.txt     # Золотой набор вопросов для тестирования
 ├── evaluate.py             # Скрипт автоматического тестирования и оценки
 ├── sequence.puml           # Диаграмма последовательности обработки запроса
+├── sequence.png            # Изображение диаграммы
 ├── requirements.txt        # Зависимости Python
 ├── README.md               # Документация (этот файл)
 ├── logs.jsonl              # Лог запросов (создаётся автоматически)
@@ -85,9 +86,12 @@ python evaluate.py
 - Обработку ошибок
 - Процесс оценки и логирования
 
+![Диаграмма последовательности](sequence.png)
+
 **Просмотр диаграммы:**
-1. Откройте `sequence.puml` в онлайн-редакторе PlantUML: http://www.plantuml.com/plantuml/uml/
-2. Или используйте расширение PlantUML в VS Code/IntelliJ IDEA
+1. Откройте изображение `sequence.png` (сгенерировано из `sequence.puml`)
+2. Или откройте `sequence.puml` в онлайн-редакторе PlantUML: http://www.plantuml.com/plantuml/uml/
+3. Или используйте расширение PlantUML в VS Code/IntelliJ IDEA
 
 ## Результаты анализа
 
