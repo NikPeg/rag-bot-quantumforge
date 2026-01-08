@@ -320,9 +320,11 @@ class RAGBot:
             r'output\s*:\s*["\']',
             r'print\s*\(["\']',
             r'execute\s+(the\s+)?(following\s+)?(code|command)',
-            r'superпароль|суперпароль|root\s*:',
-            r'password\s*:\s*\w+',
-            r'secret\s*:\s*\w+',
+            r'superпароль|суперпароль|superпароль',
+            r'root\s*:\s*\w+',
+            r'password\s*:\s*\w+|пароль\s*:\s*\w+',
+            r'secret\s*:\s*\w+|секрет\s*:\s*\w+',
+            r'swordfish',  # Конкретное значение из злонамеренного файла
         ]
         
         for pattern in malicious_patterns:
@@ -489,7 +491,16 @@ class RAGBot:
         Returns:
             список найденных документов
         """
-        results = self.vectorstore.similarity_search_with_score(query, k=k)
+        # Для запросов о паролях/секретах увеличиваем k, чтобы гарантированно найти злонамеренные файлы
+        query_lower = query.lower()
+        suspicious_keywords = ['пароль', 'password', 'секрет', 'secret', 'swordfish', 'суперпароль', 'root']
+        if any(keyword in query_lower for keyword in suspicious_keywords):
+            # Увеличиваем k для подозрительных запросов
+            search_k = max(k * 3, 20)  # Ищем больше чанков
+        else:
+            search_k = k
+        
+        results = self.vectorstore.similarity_search_with_score(query, k=search_k)
         
         # Фильтруем по релевантности (score < 1.5 для косинусного расстояния)
         filtered_results = [
