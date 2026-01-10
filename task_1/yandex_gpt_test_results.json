@@ -1,0 +1,54 @@
+{
+  "test_prompt": "Объясни, что такое RAG (Retrieval-Augmented Generation) и как это работает. Ответь на русском языке, кратко (2-3 предложения).",
+  "timestamp": "2026-01-08 13:09:11",
+  "results": [
+    {
+      "model": "YandexGPT Lite",
+      "model_id": "yandexgpt-lite",
+      "success": true,
+      "response_time": 0.9646799564361572,
+      "input_tokens": 43,
+      "output_tokens": 66,
+      "total_tokens": 109,
+      "cost": 0.00875,
+      "content_length": 373,
+      "content_preview": "RAG (Retrieval-Augmented Generation) — это подход в области искусственного интеллекта, который объединяет генеративные модели с механизмами поиска информации. Суть метода заключается в том, что модель"
+    },
+    {
+      "model": "YandexGPT",
+      "model_id": "yandexgpt",
+      "success": true,
+      "response_time": 0.914093017578125,
+      "input_tokens": 43,
+      "output_tokens": 56,
+      "total_tokens": 99,
+      "cost": 0.015500000000000002,
+      "content_length": 330,
+      "content_preview": "RAG (Retrieval-Augmented Generation) — это метод, который позволяет языковым моделям генерировать более точные и актуальные ответы, используя внешние источники данных. Он работает путём поиска релеван"
+    },
+    {
+      "model": "YandexGPT 5 Pro",
+      "model_id": "yandexgpt-5-pro",
+      "success": true,
+      "response_time": 0.793010950088501,
+      "input_tokens": 43,
+      "output_tokens": 50,
+      "total_tokens": 93,
+      "cost": 0.021449999999999997,
+      "content_length": 281,
+      "content_preview": "RAG (Retrieval-Augmented Generation) — это метод в области обработки естественного языка, который объединяет поиск информации с генерацией текста. Он работает путём извлечения релевантных данных из ба"
+    },
+    {
+      "model": "Alice AI",
+      "model_id": "aliceai-llm",
+      "success": true,
+      "response_time": 1.4700870513916016,
+      "input_tokens": 42,
+      "output_tokens": 71,
+      "total_tokens": 113,
+      "cost": 0.0184,
+      "content_length": 389,
+      "content_preview": "RAG (Retrieval‑Augmented Generation) — это подход в обработке естественного языка, при котором модель для генерации ответа сначала ищет релевантную информацию в внешней базе данных или документах, а з"
+    }
+  ]
+}

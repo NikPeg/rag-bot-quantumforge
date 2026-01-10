@@ -1,0 +1,25 @@
+services:
+  telegram-bot:
+    build:
+      context: ..
+      dockerfile: task_8/Dockerfile
+      # Использование BuildKit для кеширования и ускорения сборки
+      args:
+        BUILDKIT_INLINE_CACHE: 1
+    container_name: rag-telegram-bot
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    volumes:
+      # Монтируем индекс для персистентности
+      - ../task_3/chroma_db:/app/task_3/chroma_db
+      # Монтируем логи
+      - ./logs:/app/logs
+    # Переменные из .env автоматически загружаются через env_file
+    networks:
+      - rag-network
+
+networks:
+  rag-network:
+    driver: bridge
+
